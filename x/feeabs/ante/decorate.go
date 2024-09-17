@@ -6,6 +6,7 @@ import (
 
 	sdkerrors "cosmossdk.io/errors"
 
+	didtypes "github.com/cheqd/cheqd-node/x/did/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errorstypes "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -185,7 +186,7 @@ func DeductFees(bankKeeper types.BankKeeper, ctx sdk.Context, accAddress sdk.Acc
 		return sdkerrors.Wrapf(errorstypes.ErrInsufficientFee, "invalid fee amount: %s", fees)
 	}
 
-	if err := bankKeeper.SendCoinsFromAccountToModule(ctx, accAddress, types.FeeCollectorName, fees); err != nil {
+	if err := bankKeeper.SendCoinsFromAccountToModule(ctx, accAddress, didtypes.ModuleName, fees); err != nil {
 		return sdkerrors.Wrapf(errorstypes.ErrInsufficientFunds, err.Error())
 	}
 
