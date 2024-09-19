@@ -97,7 +97,7 @@ func (fadfd FeeAbstractionDeductFeeDecorate) normalDeductFeeAnteHandle(
 
 	// deduct the fees
 	if !fee.IsZero() {
-		err = DeductFees(fadfd.bankKeeper, ctx, deductFeesFrom, fee)
+		err = DeductFees(fadfd.bankKeeper, ctx, deductFeesFrom, fee, false)
 		if err != nil {
 			return ctx, err
 		}
@@ -166,7 +166,7 @@ func (fadfd FeeAbstractionDeductFeeDecorate) abstractionDeductFeeHandler(ctx sdk
 			return ctx, err
 		}
 
-		err = DeductFees(fadfd.bankKeeper, ctx, deductFeesFrom, nativeFees)
+		err = DeductFees(fadfd.bankKeeper, ctx, deductFeesFrom, nativeFees, true)
 		if err != nil {
 			return ctx, err
 		}
@@ -181,13 +181,15 @@ func (fadfd FeeAbstractionDeductFeeDecorate) abstractionDeductFeeHandler(ctx sdk
 }
 
 // DeductFees deducts fees from the given account.
-func DeductFees(bankKeeper types.BankKeeper, ctx sdk.Context, accAddress sdk.AccAddress, fees sdk.Coins) error {
+func DeductFees(bankKeeper types.BankKeeper, ctx sdk.Context, accAddress sdk.AccAddress, fees sdk.Coins, isIBCConvertedFee bool) error {
 	if err := fees.Validate(); err != nil {
 		return sdkerrors.Wrapf(errorstypes.ErrInsufficientFee, "invalid fee amount: %s", fees)
 	}
 
-	if err := bankKeeper.SendCoinsFromAccountToModule(ctx, accAddress, didtypes.ModuleName, fees); err != nil {
-		return sdkerrors.Wrapf(errorstypes.ErrInsufficientFunds, err.Error())
+	if isIBCConvertedFee {
+		if err := bankKeeper.SendCoinsFromAccountToModule(ctx, accAddress, didtypes.ModuleName, fees); err != nil {
+			return sdkerrors.Wrapf(errorstypes.ErrInsufficientFunds, err.Error())
+		}
 	}
 
 	return nil
