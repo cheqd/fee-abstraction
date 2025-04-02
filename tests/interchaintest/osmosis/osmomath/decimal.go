@@ -386,6 +386,7 @@ func (d BigDec) QuoMut(d2 BigDec) BigDec {
 	}
 	return d
 }
+
 func (d BigDec) QuoRaw(d2 int64) BigDec {
 	// multiply precision, so we can chop it later
 	mul := new(big.Int).Mul(d.i, precisionReuse)
