@@ -153,7 +153,7 @@ func (k Keeper) OnAcknowledgementPacket(ctx sdk.Context, ack channeltypes.Acknow
 			// 10:36AM INF ICQ response {Code:0 Log: Info: Index:0 Key:[10 19 50 49 52 50 56 53 55 49 52 48 48 48 48 48 48 48 48 48 48] Value:[] ProofOps:<nil> Height:0 Codespace:}
 			twapRate, err := k.GetDecTWAPFromBytes(icqRes.Key)
 			if err != nil {
-				k.Logger(ctx).Error("Failed to get twap")
+				k.Logger(ctx).Error(fmt.Sprintf("Failed to get twap %s", err.Error()))
 				continue
 			}
 			k.Logger(ctx).Info(fmt.Sprintf("TwapRate %v", twapRate))
@@ -210,11 +210,15 @@ func (k Keeper) GetChannelID(ctx sdk.Context) string {
 
 func (k Keeper) GetDecTWAPFromBytes(bz []byte) (sdk.Dec, error) {
 	if bz == nil {
+		// print
+		print("GetDecTWAPFromBytes: nil bytes")
 		return sdk.Dec{}, sdkerrors.Wrapf(types.ErrInvalidExchangeRate, "GetDecTWAPFromBytes: err ", "nil bytes")
 	}
 	var ibcTokenTwap types.QueryArithmeticTwapToNowResponse
 	err := k.cdc.Unmarshal(bz, &ibcTokenTwap)
 	if err != nil || ibcTokenTwap.ArithmeticTwap.IsNil() {
+		// print
+		print("GetDecTWAPFromBytes: arithmetic twap data unmarshal error", err.Error())
 		return sdk.Dec{}, sdkerrors.Wrapf(types.ErrInvalidExchangeRate, "GetDecTWAPFromBytes: err ", "arithmetic twap data unmarshal error %s", err.Error())
 	}
 	return ibcTokenTwap.ArithmeticTwap, nil
