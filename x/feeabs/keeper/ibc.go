@@ -148,12 +148,13 @@ func (k Keeper) OnAcknowledgementPacket(ctx sdk.Context, ack channeltypes.Acknow
 				k.IncreaseBlockDelayToQuery(ctx, hostZoneConfig.IbcDenom)
 				continue
 			}
-			// k.Logger(ctx).Info(fmt.Sprintf("ICQ response %+v", icqRes))
+			k.Logger(ctx).Info(fmt.Sprintf("ICQ response %+v", icqRes))
+			// Deprecated: icqRes.Key is not used anymore as of 2nd April 2025
 			// Not sure why, but the value is unmarshalled to icqRes.Key instead of icqRes.Value
 			// 10:36AM INF ICQ response {Code:0 Log: Info: Index:0 Key:[10 19 50 49 52 50 56 53 55 49 52 48 48 48 48 48 48 48 48 48 48] Value:[] ProofOps:<nil> Height:0 Codespace:}
-			twapRate, err := k.GetDecTWAPFromBytes(icqRes.Key)
+			twapRate, err := k.GetDecTWAPFromBytes(icqRes.Value)
 			if err != nil {
-				k.Logger(ctx).Error("Failed to get twap")
+				k.Logger(ctx).Error(fmt.Sprintf("Failed to get twap %s", err.Error()))
 				continue
 			}
 			k.Logger(ctx).Info(fmt.Sprintf("TwapRate %v", twapRate))
@@ -210,12 +211,16 @@ func (k Keeper) GetChannelID(ctx sdk.Context) string {
 
 func (k Keeper) GetDecTWAPFromBytes(bz []byte) (sdkmath.LegacyDec, error) {
 	if bz == nil {
-		return sdkmath.LegacyDec{}, sdkerrors.New("GetDecTWAPFromBytes: err ", 1, "nil bytes")
+		// print
+		print("GetDecTWAPFromBytes: nil bytes")
+		return sdkmath.LegacyDec{}, sdkerrors.Wrapf(types.ErrInvalidExchangeRate, "GetDecTWAPFromBytes: err ", "nil bytes")
 	}
 	var ibcTokenTwap types.QueryArithmeticTwapToNowResponse
 	err := k.cdc.Unmarshal(bz, &ibcTokenTwap)
 	if err != nil || ibcTokenTwap.ArithmeticTwap.IsNil() {
-		return sdkmath.LegacyDec{}, sdkerrors.New("arithmeticTwap data umarshal", 1, err.Error())
+		// print
+		print("GetDecTWAPFromBytes: arithmetic twap data unmarshal error", err.Error())
+		return sdkmath.LegacyDec{}, sdkerrors.Wrapf(types.ErrInvalidExchangeRate, "GetDecTWAPFromBytes: err ", "arithmetic twap data unmarshal error %s", err.Error())
 	}
 	return ibcTokenTwap.ArithmeticTwap, nil
 }
