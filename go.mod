@@ -3,7 +3,7 @@ module github.com/osmosis-labs/fee-abstraction/v8
 go 1.23.8
 
 require (
-	cosmossdk.io/client/v2 v2.0.0-beta.3
+	cosmossdk.io/client/v2 v2.0.0-beta.5.0.20241121152743-3dad36d9a29e
 	cosmossdk.io/errors v1.0.1
 	cosmossdk.io/log v1.4.1
 	cosmossdk.io/store v1.1.1
@@ -12,7 +12,7 @@ require (
 	cosmossdk.io/x/feegrant v0.1.1
 	cosmossdk.io/x/tx v0.13.7
 	cosmossdk.io/x/upgrade v0.1.4
-	github.com/cheqd/cheqd-node v1.4.6-pseudo-version-3.1.5.0.20250414104941-8a1d51af61a3
+	github.com/cheqd/cheqd-node v1.4.6-pseudo-version-3.1.5.0.20250514151055-c7d12358336f
 	github.com/client9/misspell v0.3.4
 	github.com/cometbft/cometbft v0.38.12
 	github.com/cosmos/cosmos-db v1.1.1
@@ -65,6 +65,7 @@ require (
 	github.com/butuzov/ireturn v0.1.1 // indirect
 	github.com/charithe/durationcheck v0.0.10 // indirect
 	github.com/chavacava/garif v0.0.0-20230227094218-b8c73b2037b8 // indirect
+	github.com/cheqd/cheqd-node/api/v2 v2.3.5-0.20250514151055-c7d12358336f // indirect
 	github.com/cockroachdb/errors v1.11.3 // indirect
 	github.com/cockroachdb/fifo v0.0.0-20240606204812-0bbfbd93a7ce // indirect
 	github.com/cockroachdb/logtags v0.0.0-20230118201751-21c54148d20b // indirect
@@ -178,7 +179,7 @@ require (
 	github.com/quasilyte/gogrep v0.5.0 // indirect
 	github.com/quasilyte/regex/syntax v0.0.0-20210819130434-b3f0c404a727 // indirect
 	github.com/quasilyte/stdinfo v0.0.0-20220114132959-f7386bf02567 // indirect
-	github.com/rogpeppe/go-internal v1.12.0 // indirect
+	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/rs/zerolog v1.33.0 // indirect
 	github.com/ryancurrah/gomodguard v1.3.0 // indirect
 	github.com/ryanrolds/sqlclosecheck v0.4.0 // indirect
@@ -241,7 +242,7 @@ require (
 	cosmossdk.io/api v0.7.6
 	cosmossdk.io/core v0.11.1
 	cosmossdk.io/depinject v1.1.0 // indirect
-	cosmossdk.io/math v1.4.0
+	cosmossdk.io/math v1.5.3
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 // indirect
 	github.com/99designs/keyring v1.2.2 // indirect
@@ -283,7 +284,7 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/btree v1.1.3 // indirect
-	github.com/google/go-cmp v0.6.0 // indirect
+	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/orderedcode v0.0.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.2 // indirect
@@ -346,7 +347,7 @@ require (
 	golang.org/x/term v0.30.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
 	google.golang.org/api v0.186.0 // indirect
-	google.golang.org/protobuf v1.35.1
+	google.golang.org/protobuf v1.36.5
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
@@ -364,6 +365,8 @@ replace (
 
 	// TODO Remove it: https://github.com/cosmos/cosmos-sdk/issues/10409
 	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.8.1
+
+	github.com/skip-mev/feemarket => github.com/cheqd/feemarket v1.0.5-0.20250515091338-b2d79e0d3595
 
 	// following versions might cause unexpected behavior
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
