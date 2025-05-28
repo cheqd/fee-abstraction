@@ -349,8 +349,8 @@ github.com/cheqd/cheqd-node/api/v2 v2.3.5-0.20250514151055-c7d12358336f h1:iWB2a
 github.com/cheqd/cheqd-node/api/v2 v2.3.5-0.20250514151055-c7d12358336f/go.mod h1:W+TxXSle2MqueJBciatIHfHecJUF9GnNScpUwBqVrco=
 github.com/cheqd/cosmos-sdk v0.50.13-height-mismatch-patched h1:Bakt/tLtxobTXCCHDPfNlMUsuBjPXNgD1zRMOsijhUE=
 github.com/cheqd/cosmos-sdk v0.50.13-height-mismatch-patched/go.mod h1:hrWEFMU1eoXqLJeE6VVESpJDQH67FS1nnMrQIjO2daw=
-github.com/cheqd/feemarket v1.0.5-0.20250515091338-b2d79e0d3595 h1:jQni4hA31eQdCjU1nPDIQlLIhX16TEZAkaQHO9ze8QQ=
-github.com/cheqd/feemarket v1.0.5-0.20250515091338-b2d79e0d3595/go.mod h1:ypViL3yKw6aM8/yxwUwwqEJKIAPpT8KrvIOxIL+llXU=
+github.com/cheqd/feemarket v1.0.5-uneven-heights h1:nnicfX1/2gVd3rAzYx6N316/9uwDt95a8XV/Kw8Gtw0=
+github.com/cheqd/feemarket v1.0.5-uneven-heights/go.mod h1:9az4B2TVuCOVDh+rlNyc36Wkl0rQ8bCBZmiUm3yqyxc=
 github.com/cheqd/iavl v1.2.2-uneven-heights h1:DE721r5+4vn4Oqwk8NiBIoBCCoXXkcntEmCj5F9mFE4=
 github.com/cheqd/iavl v1.2.2-uneven-heights/go.mod h1:GiM43q0pB+uG53mLxLDzimxM9l/5N9UuSY3/D0huuVw=
 github.com/chzyer/logex v1.1.10/go.mod h1:+Ywpsq7O8HXn0nuIou7OrIPyXbp3wmkHB+jjWRnGsAI=
