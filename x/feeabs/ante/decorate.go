@@ -13,6 +13,7 @@ import (
 	errorstypes "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 
+	cheqdante "github.com/cheqd/cheqd-node/ante"
 	feeabskeeper "github.com/osmosis-labs/fee-abstraction/v8/x/feeabs/keeper"
 	feeabstypes "github.com/osmosis-labs/fee-abstraction/v8/x/feeabs/types"
 )
@@ -129,6 +130,13 @@ func (fadfd FeeAbstractionDeductFeeDecorate) abstractionDeductFeeHandler(ctx sdk
 	feePayer := feeTx.FeePayer()
 	feeGranter := feeTx.FeeGranter()
 
+	deduct := true
+
+	taxable := cheqdante.IsTaxableTxLite(tx)
+	if taxable {
+		deduct = false
+	}
+
 	feeAbstractionPayer := feePayer
 	// if feegranter set deduct fee from feegranter account.
 	// this works with only when feegrant enabled.
@@ -162,8 +170,7 @@ func (fadfd FeeAbstractionDeductFeeDecorate) abstractionDeductFeeHandler(ctx sdk
 	}
 
 	// deduct the fees
-	if !feeTx.GetFee().IsZero() {
-		fmt.Println("abc", fadfd.feeabsKeeper.GetFeeAbsModuleAddress().String())
+	if !feeTx.GetFee().IsZero() && deduct {
 		err = fadfd.bankKeeper.SendCoinsFromAccountToModule(ctx, sdk.AccAddress(feeAbstractionPayer), feeabstypes.ModuleName, fee)
 		if err != nil {
 			return ctx, err
@@ -298,7 +305,6 @@ func (famfd FeeAbstrationMempoolFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk
 					nativeCoinsFees = nativeCoinsFees.Add(feeCoin)
 				}
 			}
-			fmt.Println("nativeCoinsFees", nativeCoinsFees)
 			feeCoinsNonZeroDenom = nativeCoinsFees
 		}
 
