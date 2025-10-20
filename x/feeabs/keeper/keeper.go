@@ -94,9 +94,12 @@ func (k Keeper) CalculateNativeFromIBCCoins(ctx sdk.Context, ibcCoins sdk.Coins,
 		return sdk.Coins{}, err
 	}
 
-	// mul
 	coin := ibcCoins[0]
-	nativeFeeAmount := twapRate.MulInt(coin.Amount).RoundInt()
+	if !twapRate.IsPositive() {
+		return sdk.Coins{}, types.ErrInvalidExchangeRate.Wrapf("non-positive twap rate for denom %s", chainConfig.IbcDenom)
+	}
+
+	nativeFeeAmount := coin.Amount.ToLegacyDec().Quo(twapRate).RoundInt()
 	bondDenom, err := k.sk.BondDenom(ctx)
 	if err != nil {
 		return sdk.Coins{}, err
